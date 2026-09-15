@@ -76,3 +76,35 @@
   .issue-qr { background: #fff; break-inside: avoid; }
   .qr-download { display: none; }
 }
+
+/* Keep the next-week checklist available without lengthening the initial read. */
+.checklist-details { border: 1px solid #d8e2e7; border-radius: 6px; }
+.checklist-details > summary { padding: 20px; margin: 0; list-style: none; cursor: pointer; align-items: center; background: #f2f7f9; border-radius: 6px; }
+.checklist-details > summary::-webkit-details-marker { display: none; }
+.checklist-details > summary h2 { flex: 1; }
+.checklist-details > summary:hover { background: #eaf3f6; }
+.checklist-details > summary .checklist-toggle { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400; color: #325e71; white-space: nowrap; }
+.checklist-toggle::after { content: ''; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); }
+.checklist-details .when-open { display: none; }
+.checklist-details[open] .when-closed { display: none; }
+.checklist-details[open] .when-open { display: inline; }
+.checklist-details[open] .checklist-toggle::after { transform: rotate(225deg) translate(-2px,-1px); }
+.checklist-details[open] > summary { border-bottom: 1px solid #d8e2e7; border-radius: 6px 6px 0 0; }
+.checklist-body { padding: 22px 20px 8px; }
+.checklist-body h3 { scroll-margin-top: 110px; }
+.follow-up { margin-top: 32px; padding-top: 4px; border-top: 1px solid #d8e2e7; }
+.follow-up ul { padding: 0; list-style: none; }
+.follow-up li { padding: 18px 0; border-bottom: 1px solid #e4ebef; }
+.follow-up-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.follow-up-status { white-space: nowrap; background: #e6f0f3; color: #1b5166; font-size: 14px; padding: 2px 8px; border-radius: 3px; }
+.follow-up li > a { color: #206477; font-size: 14px; }
+@media (max-width: 760px) {
+  .checklist-details > summary { padding: 16px 12px; gap: 10px; }
+  .checklist-details > summary h2 { font-size: 21px; }
+  .checklist-body { padding: 18px 14px 6px; }
+  .follow-up-heading { flex-wrap: wrap; gap: 6px; }
+}
+@media print {
+  .checklist-details > summary { background: none; }
+  .checklist-toggle { display: none !important; }
+}

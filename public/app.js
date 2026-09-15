@@ -12,3 +12,26 @@ document.getElementById('copy-link').addEventListener('click',async()=>{
  catch{input.focus();input.select();status.textContent='请长按或选中上方链接，手动复制。';}
 });
 if('IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){document.querySelectorAll('.toc nav a').forEach(a=>a.classList.toggle('active',a.hash==='#'+entry.target.id));}});},{rootMargin:'-100px 0px -65% 0px'});document.querySelectorAll('.report-section').forEach(section=>observer.observe(section));}
+
+// Links from later issues reveal the referenced suggestion inside its checklist.
+function revealChecklistTarget() {
+  let id;
+  try { id=decodeURIComponent(location.hash.slice(1)); } catch { return; }
+  const target=document.getElementById(id);
+  const checklist=target?.closest('.checklist-details');
+  if(checklist && target.closest('.checklist-body')) {
+    checklist.open=true;
+    requestAnimationFrame(()=>target.scrollIntoView({block:'start'}));
+  }
+}
+window.addEventListener('hashchange',revealChecklistTarget);
+revealChecklistTarget();
+let checklistPrintState=[];
+window.addEventListener('beforeprint',()=>{
+  checklistPrintState=Array.from(document.querySelectorAll('.checklist-details'),element=>({element,open:element.open}));
+  checklistPrintState.forEach(({element})=>{element.open=true;});
+});
+window.addEventListener('afterprint',()=>{
+  checklistPrintState.forEach(({element,open})=>{element.open=open;});
+  checklistPrintState=[];
+});
