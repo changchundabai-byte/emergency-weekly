@@ -11,7 +11,10 @@ def digest():
     h=hashlib.sha256()
     for p in sorted(PUBLIC.rglob('*')):
         if p.is_file():
-            h.update(p.relative_to(PUBLIC).as_posix().encode()+b'\0'+p.read_bytes()+b'\0')
+            data=p.read_bytes()
+            if p.suffix in {'.html','.css','.js','.svg'}:
+                data=data.replace(b'\r\n',b'\n')
+            h.update(p.relative_to(PUBLIC).as_posix().encode()+b'\0'+data+b'\0')
     return h.hexdigest()
 
 class Page(HTMLParser):
